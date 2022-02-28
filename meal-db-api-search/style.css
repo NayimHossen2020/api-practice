@@ -6,3 +6,6 @@
 body{
     background-color: rgb(247, 229, 229);
 }
+#waring-custom{
+    display: none;
+}
