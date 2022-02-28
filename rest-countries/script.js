@@ -3,6 +3,7 @@ const loadCountries = () => {
         .then(res => res.json())
         .then(data => displayCountries(data))
 }
+loadCountries()
 
 const displayCountries = (data) => {
     // for (country of data) {
@@ -10,9 +11,30 @@ const displayCountries = (data) => {
     // }
     const countryDiv = document.getElementById('countries');
     data.forEach(country => {
-        console.log();
-        const h3 = document.createElement('h3');
-        h3.innerText = country.name.common;
-        countryDiv.appendChild(h3);
+        const div = document.createElement('div');
+        div.classList = 'country';
+        div.innerHTML = `
+        <h3>${country.name.common}</h3>
+        <p>${country.capital}</p>
+        <button onclick="loadCountryByName('${country.name.common}')">Details</button>
+        `;
+        countryDiv.appendChild(div);
     });
+}
+
+const loadCountryByName = (name) => {
+    const url = `https://restcountries.com/v3.1/name/${name}`
+    fetch(url)
+        .then(res => res.json())
+        .then(data => displayCountryDetails(data[0]))
+};
+
+const displayCountryDetails = (country) => {
+    console.log(country);
+    const countryDetails = document.getElementById('country-detail');
+    countryDetails.innerHTML = `
+    <h5>${country.name}</h5>
+    <p>Population: ${country.population}</p>
+    <img width="200px" src="${country.flags.png}">
+    `;
 }
